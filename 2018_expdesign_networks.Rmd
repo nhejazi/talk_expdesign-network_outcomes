@@ -1,0 +1,86 @@
+---
+author: "[Nima Hejazi](https://nimahejazi.org)"
+title: "Model-Assisted Experimental Design in Networks"
+institution: "University of California, Berkeley"
+date: "`r Sys.Date()`"
+bibliography: refs.bib
+output: binb::metropolis
+---
+
+```{r,setup, include=FALSE}
+knitr::opts_chunk$set(cache=TRUE)
+```
+
+# Introduction
+
+## Background
+
+* ...
+
+* ...
+
+* ...
+
+## More Background
+
+* ...
+
+* ...
+
+* ...
+
+# Causal Inference with Interference
+
+## Background
+
+* ...
+
+* ...
+
+* ...
+
+## Math
+
+* ...
+
+* ...
+
+* ...
+
+# Basse and Airoldi, 2018+
+
+## Motivation
+
+* ...
+
+* ...
+
+* ...
+
+## Methodology
+
+* ...
+
+* ...
+
+* ...
+
+## Findings
+
+* ...
+
+* ...
+
+* ...
+
+# I've talked enough
+
+## Discussion
+
+* ...
+
+* ...
+
+* ...
+
+## References
