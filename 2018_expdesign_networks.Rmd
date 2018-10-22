@@ -23,18 +23,20 @@ knitr::opts_chunk$set(cache=TRUE)
   often, it's not.
 
 * A central assumption in causal models, necessary for identification results,
-  is the Stable Unit Treatment Value Assumption (SUTVA)
-  [@rubin1978bayesian] & [@rubin1980randomization].
+  is the Stable Unit Treatment Value Assumption [@rubin1978bayesian] &
+  [@rubin1980randomization].
 
-## Networks: Are you on instafacetweet too?
+* _Interference_ is often defined through the loosening of this assumption
+  [@hudgens2008toward].
+
+## Networks: Are you (still) on facebook too?
 
 * In a population of causally connected units, several types of network
-  structures may arise, each bringing its posing unique challenges for
-  statistics.
+  structures may arise, each posing unique challenges for statistics.
 
 * Broadly, the central statistical challenge is _"how to account for the
   presence of connections, or network data, observed pre-intervention, possibly
-  with uncertainty, and often missing."_
+  with uncertainty, and often missing"_ @basse2018+model.
 
 ## Networks: Two perspectives
 
@@ -46,38 +48,29 @@ knitr::opts_chunk$set(cache=TRUE)
      network are related through their baseline covariates.
 
 * The first problem has been the subject of much attention in the literature, so
-  @basse2018+model focus on the second setting.
+  @basse2018+model focus on resolving issues in the second setting.
 
-## Network interference: ...
+## Network-correlated outcomes: We're not _that_ different
 
-* Mostly studied in the setting of randomized experiments
+* Most often studied in the context of observational studies.
 
-* something
-
-* cite Eckles
-
-* cite Mark
-
-* cite Ogburn and Vanderweele
-
-## Network-correlated outcomes: ...
-
-* Mostly studied in the setting of observational studies
+* @basse2018+model focus on
 
 * ...
 
-* ...
+# G.W. Basse and E.M. Airoldi, 2018+, _Biometrika_
 
-# Basse and Airoldi, 2018+, _Biometrika_
-
-## Goal and Motivation
+## Goals and Motivation
 
 * _The problem_: "how to assign treatment in a randomized experiment, when the
   correlation among the outcomes is informed by a network available at the
   design stage."
 
 * Identify and estimate the causal effect of interference in the presence of
-  confounding induced by correlated outcomes
+  confounding induced by correlated outcomes.
+
+* How can information about a network be used to inform randomization strategies
+  for estimating causal effects?
 
 ## Approach
 
@@ -96,45 +89,46 @@ knitr::opts_chunk$set(cache=TRUE)
 * Restrict the set of allowed randomization strategies such that the estimator
   of interest achieves low MSE.
 
-## Findings
-
-* In turn, the focus on the MSE suggests new notions of balance in network-based
+* In turn, focus on MSE suggests new notions of balance in network-based
   randomization (related to network degree statistics).
 
+## Findings
+
 * Proposed approach maintains design unbiasedness of the difference-in-means
-  estimator, even when the working model is misspecified (cf, double robust?)
+  estimator, even when the working model is misspecified (i.e., robustness).
 
 * When the working model is correct, inference is improved through higher
-  precision (lower variance) of the estimator of interest.
+  precision of the estimator of interest.
 
 ## Notation
 
 * $N$ observational units, indexed $i = 1, \ldots, n$.
 
-* Binary treatment $Z$, where $Z_i = 1$ denotes assignment to treatment arm
+* Binary treatment $Z$, where $Z_i = 1$ denotes assignment to treatment arm.
 
-* Real-valued outcome $Y_i$, with potential outcomes $Y_i(1)$ for $Z_i = 1$ and
-  $Y_i(0)$ for $Z_i = 0$.
+* Real-valued outcome $Y_i$, with potential outcomes $Y_i(Z_i)$:
+  * $Y_i(1)$ for $Z_i = 1$ and
+  * $Y_i(0)$ for $Z_i = 0$.
 
 ## Assumptions
 
-* Assume _SUTVA_ [@rubin1978bayesian]: $Y_i(Z) = Y_i(Z_i)$, explicitly
-  disallowing network interference.
-
-**ADD CITATION FOR RUBIN 1974**
+* _Stable Unit Treatment Value Assumption_ [@rubin1974estimating] &
+  [@rubin1978bayesian].
+  * i.e., $Y_i(Z) = Y_i(Z_i)$
+  * explicitly disallows network interference
 
 * Finite population setting: recall that potential outcomes $Y(Z)$ are unknown
-  but constant quantities, given $Z$ (not RVs).
+  but constant quantities, given $Z$.
 
-* Randomized experiment: only source of variation is the allocation of treatment
-  to units (controlled by experimenter).
+* _Randomized experiment_: only source of variation is the allocation of
+  treatment to units (controlled by experimenter).
 
 * Treatment allocated based on distribution on the space of all binary vectors
-  of length $N$, the randomization distribution. CITE IMBENS+RUBIN
+  of length $N$, i.e., randomization distribution [@imbens2015causal].
 
 ## Parameter of interest: ATE
 
-* For illustration, authors focus on the ATE as the inferential target
+* For illustration, focus on ATE as the inferential target.
 
 * With the notation previously given, the ATE is defined as
   $$ \tau^* = \frac{1}{N}\sum_{i = 1}^N \{Y_i(1) - Y_i(0)\}$$
@@ -145,44 +139,141 @@ knitr::opts_chunk$set(cache=TRUE)
 
 ## An undirected network
 
-* The approach requires that a network be known at the design stage.
+* The proposed methodology requires that a network be known at the design stage
+  (pre-specified).
 
 * Let the network be an undirected graph $\mathcal{G}$ over $N$ units, where
+   * $\mathcal{G}$ is simply an $N \times N$ binary adjacency matrix $A$, where
+     all diagonal entries are unary (i.e., $A_{ii} = 1$), and
+   * the neighborhood of unit $i$ be the index set
+     $\mathcal{N}_i = \{j: A_{ij} = 1 \}$.
 
-* $\mathcal{G}$ is simply an $N \times N$ binary adjacency matrix $A$, where all
-  diagonal entries are unary (i.e., $A_{ii} = 1$).
+## A simplified model
 
-* Let neighborhood of unit $i$ be the index set  $\mathcal{N}_i = \{j:
-  A_{ij} = 1 \}$
-
-## The Normal Sum Model
-
-\begin{align*}
-  X_j & \sim_{iid} N(\mu, \sigma^2) \\
-  Y_i(0) \mid X & \sim_{ind} N(\sum_{j \in \mathcal{N}_i} X_j, \gamma^2) \\
-  Y_i(1) & = Y_i(0) + \tau
-\end{align*}
+* For illustrative purposes, assume the _normal-sum model_:
+  \begin{align*}
+    X_j & \sim_{iid} N(\mu, \sigma^2) \\
+    Y_i(0) \mid X & \sim_{ind} N(\sum_{j \in \mathcal{N}_i} X_j, \gamma^2) \\
+    Y_i(1) & = Y_i(0) + \tau
+  \end{align*}
 
 * Observations in the same group are taken to have originated from a Normal
-  distribution with the same mean. (Don't group with same mean then look the
-  same? Group overlap?)
+  distribution with the same mean.
+
+* "The network induces correlation among the outcomes that are assigned to
+  control because the mean of each $Y_i(0)$ is given by the sum of the
+  covariate values $X_j$ of units $j$ in a neighborhood of $i$".
+
+## A simplified model
 
 * Constant treatment effect model: $\tau$ is the difference between the
   potential outcomes $\{Y_i(0), Y_i(1)\}$.
 
-* Just a starting point, we generalize from here...
+* _Intuition_: in the absence of network connections and treatment $Z_i = 0$:
+  * $Y_i(0)$ is a measure of an intrinsic property of the observational unit
+    (e.g., time spent on social media), as determined by covariates $X$.
+  * Network connections alter the natural value $Y_i(0)$ that would occur,
+    through the induced network structure.
+  * The intervention $\text{do}(Z_i = 1)$ induces a causal effect $\tau$ such
+    that $Y_i(1) = Y_i(0) + \tau$.
 
-## Methodology
+* The _normal-sum_ model is just a starting point...
+
+## Optimal treatment allocation
+
+* To ascertain an optimal treatment allocation strategy, need a notion of error
+  to define optimality.
+
+* @basse2018+model propose the _conditional MSE_:
+  1. fix a treatment allocation vector $Z$, then
+  2. for the _normal-sum model_, $\text{MSE}(\hat{\tau} \mid Z) \equiv
+     \mathbb{E}\{(\hat{\tau} - \tau^*)^2 \mid Z \}$
+
+* Now, an optimal treatment allocation $Z^* \in \mathcal{Z}$ is one that
+  minimizes the conditional MSE.
+
+## Where are the networks?
+
+* A decomposition of the conditional MSE is informative of network statistics:
+  \begin{equation*}
+    \text{MSE}(\hat{\tau} \mid Z) = \mu^2 \{\delta_N(Z) \}^2 +
+      \gamma^2 \omega(Z)^T \omega(Z) + \sigma^2 \omega(Z)^T A^T A \omega(Z)
+  \end{equation*}
+
+* Each of the terms in the MSE decomposition is informative
+  * $\text{Bias}^2$: $\mu^2 \{\delta_N(Z) \}^2$
+  * _Network-agnostic_ variance component: $\gamma^2 \omega(Z)^T \omega(Z)$
+  * _Network-aware_ variance component: $\sigma^2 \omega(Z)^T A^T A \omega(Z)$
+
+* Model-assisted restriction randomization strategies seek to minimize the
+  conditional MSE, but tradeoffs occur in these components.
+
+## Bias
 
 * ...
 
 * ...
 
+## Network-agnostic variance term
 * ...
 
-## Findings
+* ...
+
+## Network-aware variance term
 
 * ...
+
+* ...
+
+## Classical randomization
+
+* ...
+
+* ...
+
+## Restricted randomization
+
+* ...
+
+* ...
+
+## Model-assisted restricted randomization
+
+* ...
+
+* ...
+
+## Model-assisted restricted randomization
+
+* ...
+
+* ...
+
+## Model-based optimal treatment allocation
+
+* ...
+
+* ...
+
+## Restricted randomization and rerandomization
+
+* ...
+
+* ...
+
+## Fisher intervals and inference
+
+* ...
+
+* ...
+
+## Key properties of the approach
+
+* ...
+
+* ...
+
+## Towards generalized models
 
 * ...
 
