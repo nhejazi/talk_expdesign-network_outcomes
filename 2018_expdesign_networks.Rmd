@@ -210,20 +210,55 @@ knitr::opts_chunk$set(cache=TRUE)
 
 ## Bias
 
-* ...
+* The bias term admits the decomposition
+  \begin{equation*}
+    \mu \cdot \delta_{\mathcal{N}} = \mu \cdot \left( \frac{1}{N_1}
+    \sum_{(i:Z_i = 1)} \lvert \mathcal{N}_i \rvert - \frac{1}{N_0}
+    \sum_{(i:Z_i = 0)} \lvert \mathcal{N}_i \rvert \right)
+  \end{equation*}
 
-* ...
+* The bias is proportional to the _average degree_ of each of the experimental
+  arms (treatment and control groups).
+
+* This is the difference in the average neighborhood sizes of the treated and
+  untreated units -- i.e., balance!
+
+* Desirable treatment allocation vectors $\mathcal{Z}^b$ will minimize this
+  difference in neighborhood sizes.
 
 ## Network-agnostic variance term
-* ...
 
-* ...
+* The first part of the variance term may be decomposed
+  \begin{equation*}
+    \gamma^2 \omega^T \omega = \gamma^2 \left(\frac{1}{N_1} + \frac{1}{N_0}
+    \right)
+  \end{equation*}
+
+* Similar to the previous term, this term is minimized when $N_1 = N_0$.
+
+* Thus, this term penalizes a difference in the size of treatment and control
+  units, and is satisfied through _balance_.
+
+* This is similar to prior work in balanced randomizations outside of the
+  context of network-correlated outcomes.
 
 ## Network-aware variance term
 
-* ...
+* The second part of the variance term may be written
+  \begin{align*}
+    \sigma^2 \cdot \omega^T A^T A \omega =& \frac{\sigma^2}{N_1^2} \cdot
+      \sum_{i,j: Z_i = Z_j = 1} \lvert \mathcal{N}_i \cap \mathcal{N}_j
+      \rvert \\
+    +& \frac{\sigma^2}{N_0^2} \cdot \sum_{i,j: Z_i = Z_j = 0} \lvert
+      \mathcal{N}_i \cap \mathcal{N}_j \rvert \\
+    -& \frac{2\sigma^2}{N_1 \cdot N_0} \cdot \sum_{i,j: Z_i = 1 \text{and}
+      Z_j = 0} \lvert \mathcal{N}_i \cap \mathcal{N}_j \rvert
+  \end{align*}
 
-* ...
+* Minimize contribution of this term to the MSE by
+  1. assigning units with shared neighbors to different groups, and
+  2. avoiding assigning treatment or control to clusters of densely connected
+     units.
 
 ## Classical randomization
 
@@ -273,11 +308,25 @@ knitr::opts_chunk$set(cache=TRUE)
 
 * ...
 
-## Towards generalized models
+## Towards generalized network models
 
-* ...
+* The _normal-sum model_ we discussed is just a simple case of a much broader
+  family of models
+  \begin{equation*}
+    Y_i(0) \mid X \sim^{ind} N(g[\{X_j\}_{j \in \mathcal{N}_i}], \gamma^2)
+  \end{equation*}
 
-* ...
+* Need regularity conditions on $g$ to ensure that $\mathbb{E}(g[\{X_j\}_{j \in
+  \mathcal{N}_i}] \mid \{X_j\}_{j \in \mathcal{S}})$ is well-behaved for any
+  subset of nodes $\mathcal{S} \subset \mathcal{N}_i$.
+
+## Lessons for good designs
+
+* Decrease the number of neighbors shared within treatment groups.
+
+* Increase the number of units shared between treatment groups.
+
+* Balance the size of the groups and the distribution of neighborhood sizes.
 
 # I've talked enough
 
