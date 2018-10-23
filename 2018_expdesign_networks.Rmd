@@ -50,14 +50,6 @@ knitr::opts_chunk$set(cache=TRUE)
 * The first problem has been the subject of much attention in the literature, so
   @basse2018+model focus on resolving issues in the second setting.
 
-## Network-correlated outcomes: We're not _that_ different
-
-* Most often studied in the context of observational studies.
-
-* @basse2018+model focus on
-
-* ...
-
 # G.W. Basse and E.M. Airoldi, 2018+, _Biometrika_
 
 ## Goals and Motivation
@@ -262,47 +254,168 @@ knitr::opts_chunk$set(cache=TRUE)
 
 ## Classical randomization
 
-* ...
+* __Q:__ What's a randomization strategy?
+* __A:__ Probability distributions on the set of binary vectors $\mathcal{Z}$
 
-* ...
+* Let $Z_i \sim Bern(p)$ for $p \in (0,1)$. Then, a _Bernoulli randomization
+  strategy_ is $Z = (Z_1, \ldots, Z_n) \in \mathcal{Z}$.
+
+* _Completely randomized strategy_: restrict to $Z \in \mathcal{Z}$ such that
+  $\sum_{i - 1}^n Z_i = N_1$, where
+  * $N_1$ is the size of the treatment group and $N_0$ is the size of the
+    control group, so $N_0 + N_1 = N$
+  * _Balanced_ if $N_0 = N_1 = \frac{1}{2} \cdot N$
+
+* Such randomization strategies restrict to a set of desirable treatment
+  allocation vectors (e.g., eliminating or minimizing covariate imbalance).
 
 ## Restricted randomization
 
-* ...
+* __Q:__ What's a restricted randomization strategy?
+* __A:__ Probability distributions on the set of binary vectors $\mathcal{Z}$
+     implied by discarding allocation vectors $Z \in \mathcal{Z}$ according to
+     a set of rules.
+
+* @basse2018+model propose __4__ model-based trestricted randomization
+  strategies:
+  1. balanced restricted randomization strategies
+  2. unbiased restricted randomization strategies
+  3. optimal restricted randomization strategies
+  4. unconstrained/optimal restricted randomization strategies
+
+* To proceed, let $\mathcal{Z} \equiv \{0, 1\}^N$, the set of all possible
+  treatment allocation vectors on $N$ units
+
+## $\mathcal{Z}^b$: balanced restricted randomization
+
+* Such a strategy restricts to treatment allocation vectors in
+  $$\mathcal{Z}^b \equiv \{Z \in \mathcal{Z}: N_1 - N_0 = 0\}$$
+
+* Aim to minimize the contribution of the total variance to the conditional MSE.
+
+* Defines _balanced restricted randomization design_: $Z \in \mathcal{Z}^b$
+
+## $\mathcal{Z}^u$: unbiased restricted randomization
+
+* Such a strategy restricts to treatment allocation vectors in
+  $$\mathcal{Z}^u \equiv \{Z \in \mathcal{Z}:
+    \frac{1}{N_1}\sum_{i: Z_i = 1} \lvert \mathcal{N}_i \rvert -
+    \frac{1}{N_0}\sum_{i: Z_i = 0} \lvert \mathcal{N}_i \rvert = 0\}$$
+
+* Aim to minimize the contribution of the bias to the conditional MSE.
+
+* Defines _balanced/unbiased restricted randomization design_:
+  $Z \in \mathcal{Z}^b \cap \mathcal{Z}^u$
 
 * ...
 
-## Model-assisted restricted randomization
+## $\mathcal{Z}^o$: optimal restricted randomization
 
-* ...
+* Such a strategy restricts to treatment allocation vectors in
+  $$\mathcal{Z}^o \equiv \{Z \in \mathcal{Z}: \text{MSE}(\hat{\tau} \mid Z)
+    \leq q_{\alpha}^{\text{MSE}}\},$$
+    where $q_{\alpha}^{\text{MSE}}$ is the $\alpha^{\text{th}}$-quantile of the
+    distribution of the conditional MSE.
 
-* ...
+* Defines _balanced/unbiased/optimal restricted randomization design_:
+  $Z \in \mathcal{Z}^b \cap \mathcal{Z}^u \cap \mathcal{Z}^o$
+  * n.b., $\mathcal{Z}^b \cap \mathcal{Z}^u \cap \mathcal{Z}^o$ contains at
+    least two elements $Z$ if $\mathcal{Z}^b \cap \mathcal{Z}^u \neq \emptyset$
+    [@basse2018+model].
 
-## Model-assisted restricted randomization
+* Control the conditional MSE through three effects:
+  1. Minimize average number of shared neighbors among pairs of treated units;
+  2. minimize average number of shared neighbors among pairs of untreated units;
+     and
+  3. maximize average number of shared neighbors among pairs of units, one of
+     which is treated and the other untreated.
 
-* ...
+## $\mathcal{Z}^{\text{min}}$: unconstrained/optimal restricted randomization
 
-* ...
+* Such a strategy restricts to treatment allocation vectors in
+  $$\mathcal{Z}^{\text{min}} \equiv \{Z \in \mathcal{Z}: \text{argmin}
+  \text{MSE}(\hat{\tau} \mid Z) \}$$
 
-## Model-based optimal treatment allocation
+* Trades off small increases in bias for significant reductions in variance.
 
-* ...
+## Model-based optimal treatment allocation strategies
 
-* ...
+* _Idea_: use an estimator of the ATE implied by the model, then select a set of
+  treatment allocation strategies based on this new estimator.
+  * i.e., abandon the difference-in-means estimator
 
-## Restricted randomization and rerandomization
+* The _optimal maximum likelihood design_ is defined as
+  \begin{equation*}
+    \mathcal{Z}^{\text{min}} \equiv \{Z \in \mathcal{Z}: \text{argmin}
+    MSE(\hat{\tau}_{\text{MLE}} \mid Z) \}
+  \end{equation*}
 
-* ...
+* welp...now, the strategy is married to the chosen model (e.g., normal-sum).
 
-* ...
+## Restricted randomization and re-randomization
+
+* What was all this about _re-randomization_ again? Rejection sampling!
+  (Let's let the computer do the work for us.)
+
+* To use re-randomization for restricted randomization designs, based on whether
+  certain criteria are satisfied
+  \begin{align*}
+    \phi^b(Z) =& \mathbb{I} \{ \sum_i^N Z_i = \sum_i^N (1 - Z_i) \} \\
+    \phi^u(Z) =& \mathbb{I} \{ \mu \cdot \delta_{\mathcal{N}}(Z) = 0 \} \\
+    \phi^o(Z) =& \mathbb{I} \{ \text{MSE}(\hat{\tau} \mid Z) \leq
+      q_{\alpha}^{\text{MSE}} \}
+  \end{align*}
+
+* Draw treatment allocation vector $Z$ from original design, accept if
+  $\phi(Z) = 1$ and discard if $\phi(Z) = 0$.
+
+## Issues in inference
+
+* Neymanian intervals -- challenging (under restricted randomization) for
+  several reasons
+  * Asymptotic theory of re-randomization is incompatible with network
+     settings:
+     1. number of covariates must be fixed, but this applies to neighbors in a
+        network setting, and
+     2. constraints must be a function of difference in group means and
+        variance-covariance of that vector (proven to not hold).
+
+* Bootstrap intervals? Difficult to implement due to potential complexities in
+  correlation structure.
+
+* What's left? Fisher intervals!
 
 ## Fisher intervals and inference
 
-* ...
+* Obtained by inverting a sequence of Fisher exact tests
+
+* Accomplished through re-randomization, where the proposed restricted
+  randomization distributions are treated as the permutation distributions.
 
 * ...
 
-## Key properties of the approach
+## Main result
+
+* _Design unbiasedness_: An estimator $\hat{\tau}$ is unbiased wrt a
+  distribution on $\mathcal{Z}$ if $\mathbb{E}_{\mathcal{Z}}(\hat{\tau} - \tau)
+  = 0$
+
+* The difference-in-means estimator $\hat{\tau}$ is an unbiased estimator of the
+  ATE wrt
+  1. uniform distribution on $\mathcal{Z}^b$, defining the _balanced_ design;
+  2. uniform distribution on $\mathcal{Z}^b \cap \mathcal{Z}^u$, defining the
+     _balanced/unbiased_ design;
+  3. uniform distribution on $\mathcal{Z}^b \cap \mathcal{Z}^o$, defining the
+     _balanced/optimal_ design; and
+  4. uniform distribution on $\mathcal{Z}^b \cap \mathcal{Z}^u \cap
+     \mathcal{Z}^o$, defining the _balanced/unbiased/optimal_ design.
+
+## Main result
+
+* As a consequence of design unbiasedness and of the increasingly nested
+  supports, variance of $\hat{\tau}$ may be compared across designs:
+  $$\mathbb{E}\{\text{Var}_{\mathcal{Z}^b \cap \mathcal{Z}^o} (\hat{\tau} \mid
+    Y) \} \leq \mathbb{E}\{\text{Var}_{\mathcal{Z}^b} (\hat{\tau} \mid Y) \}$$
 
 * ...
 
@@ -316,11 +429,15 @@ knitr::opts_chunk$set(cache=TRUE)
     Y_i(0) \mid X \sim^{ind} N(g[\{X_j\}_{j \in \mathcal{N}_i}], \gamma^2)
   \end{equation*}
 
-* Need regularity conditions on $g$ to ensure that $\mathbb{E}(g[\{X_j\}_{j \in
-  \mathcal{N}_i}] \mid \{X_j\}_{j \in \mathcal{S}})$ is well-behaved for any
-  subset of nodes $\mathcal{S} \subset \mathcal{N}_i$.
+* Need a few regularity conditions on $g$ to ensure that
+  $\mathbb{E}(g[\{X_j\}_{j \in \mathcal{N}_i}] \mid \{X_j\}_{j \in
+  \mathcal{S}})$ is well behaved for any subset of nodes $\mathcal{S} \subset
+  \mathcal{N}_i$.
+  * Positivity
+  * Symmetry
+  * Monotonicity
 
-## Lessons for good designs
+## Lessons for _good designs_
 
 * Decrease the number of neighbors shared within treatment groups.
 
