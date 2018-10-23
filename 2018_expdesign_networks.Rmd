@@ -94,7 +94,7 @@ knitr::opts_chunk$set(cache=TRUE)
 
 ## Notation
 
-* $N$ observational units, indexed $i = 1, \ldots, n$.
+* $N$ observational units, indexed $i = 1, \ldots, N$.
 
 * Binary treatment $Z$, where $Z_i = 1$ denotes assignment to treatment arm.
 
@@ -111,6 +111,8 @@ knitr::opts_chunk$set(cache=TRUE)
 
 * Finite population setting: recall that potential outcomes $Y(Z)$ are unknown
   but constant quantities, given $Z$.
+
+## Assumptions
 
 * _Randomized experiment_: only source of variation is the allocation of
   treatment to units (controlled by experimenter).
@@ -131,14 +133,14 @@ knitr::opts_chunk$set(cache=TRUE)
 
 ## An undirected network
 
-* The proposed methodology requires that a network be known at the design stage
-  (pre-specified).
-
 * Let the network be an undirected graph $\mathcal{G}$ over $N$ units, where
    * $\mathcal{G}$ is simply an $N \times N$ binary adjacency matrix $A$, where
      all diagonal entries are unary (i.e., $A_{ii} = 1$), and
    * the neighborhood of unit $i$ be the index set
      $\mathcal{N}_i = \{j: A_{ij} = 1 \}$.
+
+* The proposed methodology requires that a network be known at the design stage
+  (pre-specified).
 
 ## A simplified model
 
@@ -154,7 +156,8 @@ knitr::opts_chunk$set(cache=TRUE)
 
 * "The network induces correlation among the outcomes that are assigned to
   control because the mean of each $Y_i(0)$ is given by the sum of the
-  covariate values $X_j$ of units $j$ in a neighborhood of $i$".
+  covariate values $X_j$ of units $j$ in a neighborhood of $i$"
+  [@basse2018+model].
 
 ## A simplified model
 
@@ -198,7 +201,7 @@ knitr::opts_chunk$set(cache=TRUE)
   * _Network-aware_ variance component: $\sigma^2 \omega(Z)^T A^T A \omega(Z)$
 
 * Model-assisted restriction randomization strategies seek to minimize the
-  conditional MSE, but tradeoffs occur in these components.
+  conditional MSE, but tradeoffs occur.
 
 ## Bias
 
@@ -215,8 +218,8 @@ knitr::opts_chunk$set(cache=TRUE)
 * This is the difference in the average neighborhood sizes of the treated and
   untreated units -- i.e., balance!
 
-* Desirable treatment allocation vectors $\mathcal{Z}^b$ will minimize this
-  difference in neighborhood sizes.
+* Desirable treatment allocation vectors ($Z \in \mathcal{Z}^b$) will minimize
+  this difference in neighborhood sizes.
 
 ## Network-agnostic variance term
 
@@ -226,7 +229,7 @@ knitr::opts_chunk$set(cache=TRUE)
     \right)
   \end{equation*}
 
-* Similar to the previous term, this term is minimized when $N_1 = N_0$.
+* Similar to bias term, minimized when $N_1 = N_0$.
 
 * Thus, this term penalizes a difference in the size of treatment and control
   units, and is satisfied through _balance_.
@@ -255,10 +258,13 @@ knitr::opts_chunk$set(cache=TRUE)
 ## Classical randomization
 
 * __Q:__ What's a randomization strategy?
+
 * __A:__ Probability distributions on the set of binary vectors $\mathcal{Z}$
 
-* Let $Z_i \sim Bern(p)$ for $p \in (0,1)$. Then, a _Bernoulli randomization
+* Let $Z_i \sim Bern(p)$ for $p \in (0,1)$. A _Bernoulli randomization
   strategy_ is $Z = (Z_1, \ldots, Z_n) \in \mathcal{Z}$.
+
+## Classical randomization
 
 * _Completely randomized strategy_: restrict to $Z \in \mathcal{Z}$ such that
   $\sum_{i - 1}^n Z_i = N_1$, where
@@ -272,9 +278,15 @@ knitr::opts_chunk$set(cache=TRUE)
 ## Restricted randomization
 
 * __Q:__ What's a restricted randomization strategy?
+
 * __A:__ Probability distributions on the set of binary vectors $\mathcal{Z}$
      implied by discarding allocation vectors $Z \in \mathcal{Z}$ according to
-     a set of rules.
+     a user-defined set of rules.
+
+* To proceed, let $\mathcal{Z} \equiv \{0, 1\}^N$, the set of all possible
+  treatment allocation vectors on $N$ units
+
+## Restricted randomization
 
 * @basse2018+model propose __4__ model-based trestricted randomization
   strategies:
@@ -282,9 +294,6 @@ knitr::opts_chunk$set(cache=TRUE)
   2. unbiased restricted randomization strategies
   3. optimal restricted randomization strategies
   4. unconstrained/optimal restricted randomization strategies
-
-* To proceed, let $\mathcal{Z} \equiv \{0, 1\}^N$, the set of all possible
-  treatment allocation vectors on $N$ units
 
 ## $\mathcal{Z}^b$: balanced restricted randomization
 
@@ -298,16 +307,14 @@ knitr::opts_chunk$set(cache=TRUE)
 ## $\mathcal{Z}^u$: unbiased restricted randomization
 
 * Such a strategy restricts to treatment allocation vectors in
-  $$\mathcal{Z}^u \equiv \{Z \in \mathcal{Z}:
+  $$\mathcal{Z}^u \equiv \left\{Z \in \mathcal{Z}:
     \frac{1}{N_1}\sum_{i: Z_i = 1} \lvert \mathcal{N}_i \rvert -
-    \frac{1}{N_0}\sum_{i: Z_i = 0} \lvert \mathcal{N}_i \rvert = 0\}$$
+    \frac{1}{N_0}\sum_{i: Z_i = 0} \lvert \mathcal{N}_i \rvert = 0 \right\}$$
 
-* Aim to minimize the contribution of the bias to the conditional MSE.
+* Aim to minimize the contribution of the bias term to the conditional MSE.
 
 * Defines _balanced/unbiased restricted randomization design_:
   $Z \in \mathcal{Z}^b \cap \mathcal{Z}^u$
-
-* ...
 
 ## $\mathcal{Z}^o$: optimal restricted randomization
 
@@ -322,6 +329,8 @@ knitr::opts_chunk$set(cache=TRUE)
   * n.b., $\mathcal{Z}^b \cap \mathcal{Z}^u \cap \mathcal{Z}^o$ contains at
     least two elements $Z$ if $\mathcal{Z}^b \cap \mathcal{Z}^u \neq \emptyset$
     [@basse2018+model].
+
+## $\mathcal{Z}^o$: optimal restricted randomization
 
 * Control the conditional MSE through three effects:
   1. Minimize average number of shared neighbors among pairs of treated units;
@@ -338,6 +347,9 @@ knitr::opts_chunk$set(cache=TRUE)
 
 * Trades off small increases in bias for significant reductions in variance.
 
+* @basse2018+model do _not_ focus on this -- similarly, we'll restrict our
+  attention to $\mathcal{Z}^b$, $\mathcal{Z}^u$, and $\mathcal{Z}^o$.
+
 ## Model-based optimal treatment allocation strategies
 
 * _Idea_: use an estimator of the ATE implied by the model, then select a set of
@@ -350,7 +362,10 @@ knitr::opts_chunk$set(cache=TRUE)
     MSE(\hat{\tau}_{\text{MLE}} \mid Z) \}
   \end{equation*}
 
-* welp...now, the strategy is married to the chosen model (e.g., normal-sum).
+* Now, the strategy is married to the chosen model (e.g., normal-sum).
+  * If we're clever about how we restrict our randomizations, we can still
+    maintain unbiasedness (i.e.,
+    $Z \in \mathcal{Z}^b \cap \mathcal{Z}^{\text{min}}$).
 
 ## Restricted randomization and re-randomization
 
@@ -367,18 +382,16 @@ knitr::opts_chunk$set(cache=TRUE)
   \end{align*}
 
 * Draw treatment allocation vector $Z$ from original design, accept if
-  $\phi(Z) = 1$ and discard if $\phi(Z) = 0$.
+  $\phi(Z) = 1$ or discard if $\phi(Z) = 0$.
 
 ## Issues in inference
 
-* Neymanian intervals -- challenging (under restricted randomization) for
-  several reasons
-  * Asymptotic theory of re-randomization is incompatible with network
-     settings:
-     1. number of covariates must be fixed, but this applies to neighbors in a
-        network setting, and
-     2. constraints must be a function of difference in group means and
-        variance-covariance of that vector (proven to not hold).
+* Neymanian intervals -- restricted randomization makes these challenging as
+  asymptotic theory incompatible with networks:
+  1. number of covariates must be fixed, but this applies to neighbors in a
+      network setting, and
+  2. constraints must be a function of difference in group means and
+      variance-covariance of that vector (proven not to hold).
 
 * Bootstrap intervals? Difficult to implement due to potential complexities in
   correlation structure.
@@ -387,12 +400,14 @@ knitr::opts_chunk$set(cache=TRUE)
 
 ## Fisher intervals and inference
 
-* Obtained by inverting a sequence of Fisher exact tests
+* Obtained by inverting a sequence of Fisher exact tests.
 
 * Accomplished through re-randomization, where the proposed restricted
   randomization distributions are treated as the permutation distributions.
 
-* ...
+* Appendix B.1
+
+## Fisher intervals and inference
 
 ## Main result
 
@@ -412,14 +427,17 @@ knitr::opts_chunk$set(cache=TRUE)
 
 ## Main result
 
-* As a consequence of design unbiasedness and of the increasingly nested
-  supports, variance of $\hat{\tau}$ may be compared across designs:
+* As a consequence of design unbiasedness (as well as of the increasingly nested
+  supports), variance of $\hat{\tau}$ may be compared across designs:
   $$\mathbb{E}\{\text{Var}_{\mathcal{Z}^b \cap \mathcal{Z}^o} (\hat{\tau} \mid
     Y) \} \leq \mathbb{E}\{\text{Var}_{\mathcal{Z}^b} (\hat{\tau} \mid Y) \}$$
 
-* ...
+* Similar inequalities exist for any pair of nested designs as long as
+  $\mathcal{Z}^b$ is included in the support of designs.
 
-* ...
+* The arguments rely on _symmetry_ provided by the inclusion of $\mathcal{Z}^b$
+  -- in fact, we have the following Lemma: _For $Z \in \mathcal{Z}^b$, we have
+  $\hat{\tau}(1 - Z) = 2\tau - \hat{\tau}(Z)$_.
 
 ## Towards generalized network models
 
@@ -445,15 +463,7 @@ knitr::opts_chunk$set(cache=TRUE)
 
 * Balance the size of the groups and the distribution of neighborhood sizes.
 
-# I've talked enough
-
-## Discussion
-
-* ...
-
-* ...
-
-* ...
+# Alright...I've talked enough
 
 ## References
 
