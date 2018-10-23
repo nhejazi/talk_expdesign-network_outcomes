@@ -405,9 +405,12 @@ knitr::opts_chunk$set(cache=TRUE)
 * Accomplished through re-randomization, where the proposed restricted
   randomization distributions are treated as the permutation distributions.
 
-* Appendix B.1
-
-## Fisher intervals and inference
+* Under balance (i.e., $Z \in \mathcal{Z}^b$), the sharp null hypothesis
+  \begin{equation*}
+    H_{\tau^*}: Y_i(1) = Y_i(0) + \tau^* \forall i,
+  \end{equation*}
+  may be inverted to generate a confidence interval wrt a sequence of $\tau^*$.
+  * See B.1 in the appendix of @basse2018+model for details on the construction.
 
 ## Main result
 
@@ -439,7 +442,7 @@ knitr::opts_chunk$set(cache=TRUE)
   -- in fact, we have the following Lemma: _For $Z \in \mathcal{Z}^b$, we have
   $\hat{\tau}(1 - Z) = 2\tau - \hat{\tau}(Z)$_.
 
-## Towards generalized network models
+## Towards general network models
 
 * The _normal-sum model_ we discussed is just a simple case of a much broader
   family of models
@@ -447,7 +450,7 @@ knitr::opts_chunk$set(cache=TRUE)
     Y_i(0) \mid X \sim^{ind} N(g[\{X_j\}_{j \in \mathcal{N}_i}], \gamma^2)
   \end{equation*}
 
-* Need a few regularity conditions on $g$ to ensure that
+* Need a few regularity conditions on $g$ to ensure that the quantity
   $\mathbb{E}(g[\{X_j\}_{j \in \mathcal{N}_i}] \mid \{X_j\}_{j \in
   \mathcal{S}})$ is well behaved for any subset of nodes $\mathcal{S} \subset
   \mathcal{N}_i$.
@@ -455,13 +458,23 @@ knitr::opts_chunk$set(cache=TRUE)
   * Symmetry
   * Monotonicity
 
+## Examples of general network models
+
+* ...
+
+* ...
+
+* ...
+
 ## Lessons for _good designs_
 
-* Decrease the number of neighbors shared within treatment groups.
+* From this extended discourse on good designs, a few new rules come to light.
 
-* Increase the number of units shared between treatment groups.
-
-* Balance the size of the groups and the distribution of neighborhood sizes.
+* Let's ask -- so, what exactly should a _good design_ do?
+  1. Decrease number of shared neighbors in treatment groups.
+  2. Increase number of shared units between treatment groups.
+  3. Balance the size of the groups and the distribution of the sizes of
+     neighborhoods.
 
 # Alright...I've talked enough
 
