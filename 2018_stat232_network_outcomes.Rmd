@@ -52,15 +52,18 @@ knitr::opts_chunk$set(cache=TRUE)
 
 ## Discussion -- a preview
 
-* Employing randomization inference in settings with network-correlated
-  outcomes
-  1. How may we construct settings in which estimators are endowed with
-     desirable properties (e.g., unbiasedness, "optimality")?
+While we're employing randomization inference in settings with
+network-correlated outcomes:
 
-  2. How can we leverage modern development (e.g., re-randomization) to build
+1. How may we construct settings in which estimators are endowed with
+   desirable properties (e.g., design balance, unbiasedness, "optimality")?
 
+2. In what ways may we leverage modern developments (e.g., re-randomization)
+   to obtain inference for desirable estimators?
 
-  3. 
+3. Tools may be constructed when networks are known _a priori_. Are there
+   additional complications introduced when the network itself must be
+   estimated?
 
 # G.W. Basse and E.M. Airoldi, 2018+, _Biometrika_
 
@@ -499,13 +502,20 @@ knitr::opts_chunk$set(cache=TRUE)
 
 # Alright...I've talked enough
 
-## Discussion -- as promised
+## Discussion -- we're back
 
-* Question 1:
+While we're employing randomization inference in settings with
+network-correlated outcomes:
 
-* Question 2:
+1. How may we construct settings in which estimators are endowed with
+   desirable properties (e.g., design balance, unbiasedness, "optimality")?
 
-* Question 3:
+2. In what ways may we leverage modern developments (e.g., re-randomization)
+   to obtain inference for desirable estimators?
+
+3. Tools may be constructed when networks are known _a priori_. Are there
+   additional complications introduced when the network itself must be
+   estimated?
 
 ## References
 
