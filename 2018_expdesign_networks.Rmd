@@ -50,6 +50,17 @@ knitr::opts_chunk$set(cache=TRUE)
 * The first problem has been the subject of much attention in the literature, so
   @basse2018+model focus on resolving issues in the second setting.
 
+## Discussion -- a preview
+
+* Employing randomization inference in settings with network-correlated
+  outcomes
+  1. How may we construct settings in which estimators are endowed with
+     desirable properties (e.g., unbiasedness, "optimality")?
+
+  2. How can we leverage modern development (e.g., re-randomization) to 
+
+  3. 
+
 # G.W. Basse and E.M. Airoldi, 2018+, _Biometrika_
 
 ## Goals and Motivation
@@ -460,11 +471,20 @@ knitr::opts_chunk$set(cache=TRUE)
 
 ## Examples of general network models
 
-* ...
+* __How well does this notion of network models generalize?__
 
-* ...
+* Let $g[\{X_j\}_{j \in \mathcal{N}_i}] = \sum_{j \in \mathcal{N}_i} X_j$.
+  * _Intuition_: Mean for each group is the sum of their covariates.
+  * This is just the _normal-sum_ model again.
 
-* ...
+* Let $g[\{X_j\}_{j \in \mathcal{N}_i}] = \mathbb{I} \left( \sum_{j \in
+  \mathcal{N}_i} X_j > c \right)$.
+  * _Intuition_: Mean for each group is an indicator of whether the
+    sum of their covariates is greater than a cutoff of interest $c$.
+
+* Let $g[\{X_j\}_{j \in \mathcal{N}_i}] = \text{max}(\{X_j\}_{j \in
+  \mathcal{N}_i})$.
+  * _Intuition_: Mean for each group is the max over their covariates.
 
 ## Lessons for _good designs_
 
@@ -477,6 +497,14 @@ knitr::opts_chunk$set(cache=TRUE)
      neighborhoods.
 
 # Alright...I've talked enough
+
+## Discussion -- as promised
+
+* Question 1:
+
+* Question 2:
+
+* Question 3:
 
 ## References
 
