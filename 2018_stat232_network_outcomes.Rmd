@@ -50,7 +50,7 @@ knitr::opts_chunk$set(cache=TRUE)
 * The first problem has been the subject of much attention in the literature, so
   @basse2018+model focus on resolving issues in the second setting.
 
-## Discussion -- a preview
+## Discussion -- just a glance
 
 While we're employing randomization inference in settings with
 network-correlated outcomes:
@@ -357,8 +357,8 @@ network-correlated outcomes:
 ## $\mathcal{Z}^{\text{min}}$: unconstrained/optimal restricted randomization
 
 * Such a strategy restricts to treatment allocation vectors in
-  $$\mathcal{Z}^{\text{min}} \equiv \{Z \in \mathcal{Z}: \text{argmin}
-  \text{MSE}(\hat{\tau} \mid Z) \}$$
+  $$\mathcal{Z}^{\text{min}} \equiv \{Z \in \mathcal{Z}: \text{argmin MSE}
+  (\hat{\tau} \mid Z) \}$$
 
 * Trades off small increases in bias for significant reductions in variance.
 
@@ -373,8 +373,8 @@ network-correlated outcomes:
 
 * The _optimal maximum likelihood design_ is defined as
   \begin{equation*}
-    \mathcal{Z}^{\text{min}} \equiv \{Z \in \mathcal{Z}: \text{argmin}
-    MSE(\hat{\tau}_{\text{MLE}} \mid Z) \}
+    \mathcal{Z}^{\text{min}} \equiv \{Z \in \mathcal{Z}: \text{argmin MSE}
+    (\hat{\tau}_{\text{MLE}} \mid Z) \}
   \end{equation*}
 
 * Now, the strategy is married to the chosen model (e.g., normal-sum).
@@ -427,7 +427,7 @@ network-correlated outcomes:
   may be inverted to generate a confidence interval wrt a sequence of $\tau^*$.
   * See B.1 in the appendix of @basse2018+model for details on the construction.
 
-## Main result
+## Nesting supports of designs
 
 * _Design unbiasedness_: An estimator $\hat{\tau}$ is unbiased wrt a
   distribution on $\mathcal{Z}$ if $\mathbb{E}_{\mathcal{Z}}(\hat{\tau} - \tau)
@@ -443,7 +443,7 @@ network-correlated outcomes:
   4. uniform distribution on $\mathcal{Z}^b \cap \mathcal{Z}^u \cap
      \mathcal{Z}^o$, defining the _balanced/unbiased/optimal_ design.
 
-## Main result
+## Enhancing efficiency via nested designs
 
 * As a consequence of design unbiasedness (as well as of the increasingly nested
   supports), variance of $\hat{\tau}$ may be compared across designs:
@@ -475,7 +475,7 @@ network-correlated outcomes:
 
 ## Examples of general network models
 
-* __How well does this notion of network models generalize?__
+__How well does this notion of network models generalize?__
 
 * Let $g[\{X_j\}_{j \in \mathcal{N}_i}] = \sum_{j \in \mathcal{N}_i} X_j$.
   * _Intuition_: Mean for each group is the sum of their covariates.
@@ -502,7 +502,7 @@ network-correlated outcomes:
 
 # Alright...I've talked enough
 
-## Discussion -- we're back
+## Discussion...remember?
 
 While we're employing randomization inference in settings with
 network-correlated outcomes:
