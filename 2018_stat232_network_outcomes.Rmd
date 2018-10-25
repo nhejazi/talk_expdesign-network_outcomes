@@ -57,7 +57,8 @@ knitr::opts_chunk$set(cache=TRUE)
   1. How may we construct settings in which estimators are endowed with
      desirable properties (e.g., unbiasedness, "optimality")?
 
-  2. How can we leverage modern development (e.g., re-randomization) to 
+  2. How can we leverage modern development (e.g., re-randomization) to build
+
 
   3. 
 

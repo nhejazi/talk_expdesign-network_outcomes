@@ -7,6 +7,9 @@
 
 ---
 
+The slide deck (in PDF) is available online
+[here](https://statistics.berkeley.edu/~nhejazi/present/2018_stat232_network_outcomes.pdf).
+
 This talk is a presentation of the following paper
 
 * "Model-assisted design of experiments in the presence of network
